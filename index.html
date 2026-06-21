@@ -3,862 +3,1105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Core Memories - 22nd Graduation Gashapon Machine</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Mi Core Memories - 22nd Graduation Ceremony</title>
+    <!-- Tailwind CSS for rich responsive styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome for playful graduation and console icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts for playful lettering -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
         body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            background-color: #050515;
-            /* 優先載入上傳的主視覺圖片，並提供深藍霓虹漸層作為高質感備用背景 */
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(35, 30, 90, 0.6) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(90, 30, 85, 0.5) 0%, transparent 50%),
-                url('主視覺.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
+            font-family: 'Quicksand', 'Noto Sans TC', sans-serif;
+            background: radial-gradient(circle at center, #1b1437 0%, #08051a 100%);
+            color: #f1f5f9;
+            overflow-x: hidden;
         }
 
-        /* 霓虹濾鏡層，增加主視覺與扭蛋機的融合度 */
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(11, 10, 26, 0.45);
-            z-index: 1;
-            pointer-events: none;
+        /* Glassmorphism utility classes */
+        .glass-panel {
+            background: rgba(25, 20, 50, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
-        .main-container {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            max-width: 1200px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(10, 5, 30, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(168, 85, 247, 0.4);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(168, 85, 247, 0.7);
         }
 
-        /* 標題霓虹文字 */
-        .neon-title {
-            font-size: 2.5rem;
-            font-weight: 900;
-            text-align: center;
-            color: #ffffff;
-            text-shadow: 
-                0 0 5px #fff,
-                0 0 10px #fff,
-                0 0 20px #a855f7,
-                0 0 40px #a855f7,
-                0 0 60px #2563eb;
-            letter-spacing: 2px;
-            margin-bottom: 25px;
-            animation: pulse-glow 2.5s infinite alternate;
+        /* Keyframe animations */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
         }
 
         @keyframes pulse-glow {
-            0% {
-                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #8b5cf6, 0 0 30px #8b5cf6;
-                transform: scale(1);
-            }
-            100% {
-                text-shadow: 0 0 10px #fff, 0 0 20px #ec4899, 0 0 40px #ec4899, 0 0 50px #8b5cf6;
-                transform: scale(1.02);
-            }
+            0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 5px rgba(147, 51, 234, 0.5)); }
+            50% { opacity: 1; filter: drop-shadow(0 0 15px rgba(147, 51, 234, 0.9)); }
+        }
+        .pulse-glow {
+            animation: pulse-glow 3s infinite;
         }
 
-        /* 3D 扭蛋機造型 */
-        .gashapon-machine {
-            width: 360px;
-            height: 560px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
+        /* Capsule drop animation */
+        @keyframes capsuleDrop {
+            0% { transform: translateY(-150px) rotate(0deg); opacity: 0; }
+            50% { transform: translateY(120px) rotate(180deg) scaleY(0.9); opacity: 1; }
+            70% { transform: translateY(90px) rotate(270deg) scaleY(1.1); }
+            85% { transform: translateY(105px) rotate(320deg) scaleY(0.95); }
+            100% { transform: translateY(100px) rotate(360deg) scale(1); }
         }
-
-        /* 1. 頂蓋 (跟 image_19fd7c.jpg 一樣的圓頂造型) */
-        .machine-cap {
-            width: 250px;
-            height: 55px;
-            background: linear-gradient(135deg, #2b4c7e 0%, #172a45 100%);
-            border-radius: 40px 40px 10px 10px;
-            border: 3px solid #3b82f6;
-            box-shadow: 0 -10px 25px rgba(59, 130, 246, 0.4), inset 0 8px 10px rgba(255, 255, 255, 0.2);
-            position: relative;
-            z-index: 10;
-        }
-
-        .machine-cap::after {
-            content: '';
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 18px;
-            background: #3b82f6;
-            border-radius: 10px 10px 0 0;
-            box-shadow: 0 -2px 10px rgba(59, 130, 246, 0.6);
-        }
-
-        /* 2. 圓形大玻璃罩 */
-        .globe-container {
-            width: 330px;
-            height: 310px;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.03) 70%, rgba(0, 0, 0, 0.6) 100%);
-            border-radius: 50%;
-            border: 6px solid rgba(255, 255, 255, 0.15);
-            position: relative;
-            margin-top: -20px;
-            z-index: 8;
-            overflow: hidden;
-            box-shadow: 
-                0 15px 35px rgba(0, 0, 0, 0.8),
-                inset 0 20px 30px rgba(255, 255, 255, 0.15),
-                inset 0 -20px 30px rgba(0, 0, 0, 0.6),
-                0 0 30px rgba(59, 130, 246, 0.2);
-            backdrop-filter: blur(1px);
-        }
-
-        /* 玻璃耀光 */
-        .globe-sheen {
-            position: absolute;
-            top: 25px;
-            left: 50px;
-            width: 70px;
-            height: 25px;
-            background: rgba(255, 255, 255, 0.4);
-            border-radius: 50%;
-            transform: rotate(-28deg);
-            filter: blur(1px);
-            pointer-events: none;
-        }
-
-        /* 3. 扭蛋機底座 (仿 image_19fd7c.jpg 厚實圓錐體) */
-        .machine-base {
-            width: 320px;
-            height: 230px;
-            background: linear-gradient(to bottom, #101c2e 0%, #0c1420 100%);
-            border-radius: 10px 10px 45px 45px;
-            border: 4px solid #1e3a8a;
-            margin-top: -30px;
-            z-index: 7;
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.9),
-                inset 0 4px 6px rgba(255, 255, 255, 0.1),
-                0 0 20px rgba(29, 78, 216, 0.3);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 0;
-            position: relative;
-        }
-
-        /* 4. 旋鈕控制面板 */
-        .control-panel {
-            width: 150px;
-            height: 90px;
-            background: #080d16;
-            border: 3px solid #2563eb;
-            border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.8), 0 0 15px rgba(37, 99, 235, 0.4);
-        }
-
-        /* 5. 旋鈕本體 (真的可以轉的 T 字把手) */
-        .crank-handle {
-            width: 95px;
-            height: 95px;
-            position: relative;
-            cursor: pointer;
-            transform: rotate(0deg);
-            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-            z-index: 12;
-        }
-
-        /* T字把手的外觀 */
-        .crank-center {
-            width: 34px;
-            height: 34px;
-            background: radial-gradient(circle, #4b5563 0%, #1f2937 100%);
-            border: 3px solid #6b7280;
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.4);
-            z-index: 3;
-        }
-
-        .crank-bar {
-            width: 90px;
-            height: 22px;
-            background: linear-gradient(180deg, #9ca3af 0%, #4b5563 50%, #111827 100%);
-            border: 2px solid #4b5563;
-            border-radius: 11px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-        }
-
-        .crank-bar::before, .crank-bar::after {
-            content: '';
-            position: absolute;
-            width: 14px;
-            height: 14px;
-            background: #2563eb;
-            border-radius: 50%;
-            top: 2px;
-            box-shadow: 0 0 8px #3b82f6;
-        }
-        .crank-bar::before { left: 4px; }
-        .crank-bar::after { right: 4px; }
-
-        /* 6. 出蛋槽 (下方接球口) */
-        .dispenser-gate {
-            width: 100px;
-            height: 75px;
-            background: #04070c;
-            border: 3px solid #1e3a8a;
-            border-radius: 35px 35px 15px 15px;
-            box-shadow: inset 0 10px 15px rgba(0, 0, 0, 0.9);
-            position: relative;
-            overflow: visible;
-        }
-
-        /* 內部裝飾彩球 */
-        .balls-pile {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            bottom: 0;
-            left: 0;
-            overflow: hidden;
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        .gashapon-ball {
-            position: absolute;
-            border-radius: 50%;
-            box-shadow: 
-                inset -6px -6px 12px rgba(0,0,0,0.35),
-                inset 8px 8px 12px rgba(255,255,255,0.45),
-                0 4px 8px rgba(0,0,0,0.3);
-            transition: transform 0.05s ease-out;
-        }
-
-        /* 掉落出的球 */
-        .out-ball {
-            width: 68px;
-            height: 68px;
-            border-radius: 50%;
-            position: absolute;
-            bottom: 5px;
-            left: 16px;
-            cursor: pointer;
-            display: none;
-            z-index: 15;
-            box-shadow: 
-                inset -8px -8px 15px rgba(0,0,0,0.4),
-                inset 10px 10px 15px rgba(255,255,255,0.5),
-                0 8px 20px rgba(0,0,0,0.6),
-                0 0 20px rgba(255, 255, 255, 0.4);
-            transform-origin: center;
-        }
-
-        /* 彈跳搖晃動畫 */
-        @keyframes shake-balls {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            20% { transform: translate(-3px, 5px) rotate(-5deg); }
-            40% { transform: translate(4px, -4px) rotate(8deg); }
-            60% { transform: translate(-5px, 2px) rotate(-6deg); }
-            80% { transform: translate(3px, 4px) rotate(4deg); }
-            100% { transform: translate(0, 0) rotate(0deg); }
-        }
-
-        .shake {
-            animation: shake-balls 0.6s ease-in-out infinite;
-        }
-
-        /* 掉落動畫 */
-        @keyframes ball-drop {
-            0% {
-                transform: translate(0, -220px) scale(0.3);
-                opacity: 0;
-            }
-            30% {
-                opacity: 1;
-            }
-            65% {
-                transform: translate(0, 10px) scale(1.05);
-            }
-            80% {
-                transform: translate(0, -8px) scale(0.95);
-            }
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-        }
-
-        .ball-drop-anim {
-            display: block !important;
-            animation: ball-drop 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-        }
-
-        /* 旋鈕滑過發光特效 */
-        .crank-handle:hover .crank-bar {
-            filter: brightness(1.2);
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
-        }
-
-        /* 全螢幕光暈模態視窗 */
-        .backdrop-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(4, 3, 15, 0.85);
-            backdrop-filter: blur(12px);
-            z-index: 100;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .backdrop-modal.active {
-            opacity: 1;
-            display: flex;
-        }
-
-        /* 投射卡片造型 (經典腦筋急轉彎記憶投影螢幕感覺) */
-        .memory-projector {
-            width: 90%;
-            max-width: 520px;
-            background: rgba(13, 18, 33, 0.8);
-            border: 4px solid var(--theme-color, #3b82f6);
-            border-radius: 35px;
-            padding: 40px;
-            text-align: center;
-            position: relative;
-            transform: scale(0.7);
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 
-                0 0 40px var(--theme-color, rgba(59, 130, 246, 0.4)),
-                inset 0 0 25px rgba(255, 255, 255, 0.05);
-        }
-
-        .backdrop-modal.active .memory-projector {
-            transform: scale(1);
-        }
-
-        /* 球體破裂動畫 */
-        .capsule-break {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .dome-half {
-            width: 65px;
-            height: 65px;
-            border-radius: 50% 50% 0 0;
-            background: linear-gradient(135deg, var(--theme-color, #3b82f6) 0%, rgba(0,0,0,0.4) 100%);
-            box-shadow: inset 5px 5px 10px rgba(255,255,255,0.4);
-            transform-origin: bottom center;
-            animation: break-left 0.6s forwards cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        .dome-half.bottom {
-            border-radius: 0 0 50% 50%;
-            transform-origin: top center;
-            animation: break-right 0.6s forwards cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        @keyframes break-left {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-30px) translateX(-40px) rotate(-35deg); opacity: 0.8; }
-        }
-
-        @keyframes break-right {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(30px) translateX(40px) rotate(35deg); opacity: 0.8; }
-        }
-
-        /* 提示按鈕 */
-        .pulse-btn {
-            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-            color: white;
-            padding: 12px 35px;
-            border-radius: 25px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-            border: 2px solid #3b82f6;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
-        }
-
-        .pulse-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 25px rgba(59, 130, 246, 0.8);
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-        }
-
-        /* 彩色微光點綴 */
-        .sparkle-dot {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            pointer-events: none;
-            filter: blur(1px);
-            animation: sparkle-glow 3s infinite alternate;
-        }
-
-        @keyframes sparkle-glow {
-            0% { opacity: 0.2; transform: scale(0.8); }
-            100% { opacity: 0.9; transform: scale(1.3); }
-        }
-
-        /* 指引按壓手把提示 */
-        .hint-pulse {
-            position: absolute;
-            top: -25px;
-            background: rgba(37, 99, 235, 0.85);
-            color: #ffffff;
-            padding: 5px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: bold;
-            pointer-events: none;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
-            animation: bounce-slow 1.5s infinite;
-            white-space: nowrap;
-        }
-
-        @keyframes bounce-slow {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
+        .capsule-drop {
+            animation: capsuleDrop 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center">
+<body class="min-h-screen relative flex flex-col justify-between">
 
-<!-- 星空微光顆粒背景 -->
-<div id="sparkles"></div>
-
-<div class="main-container">
-    
-    <!-- 畢業主標題 -->
-    <div class="text-center">
-        <div class="neon-title">22nd Core Memories</div>
-        <p class="text-blue-300 tracking-widest text-sm md:text-base font-bold mb-8 uppercase opacity-90">
-            — 點擊金屬轉盤 ‧ 抽出屬於你們的璀璨回憶 —
-        </p>
-    </div>
-
-    <!-- 擬真扭蛋機 -->
-    <div class="gashapon-machine">
+    <script>
+        // Simple Audio Synthesizer using Web Audio API to prevent external URL dependencies
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         
-        <!-- 頂部圓蓋 -->
-        <div class="machine-cap"></div>
-
-        <!-- 圓形大玻璃球 -->
-        <div class="globe-container" id="globe">
-            <div class="globe-sheen"></div>
-            <!-- 內部彩球堆疊區 -->
-            <div class="balls-pile" id="ballsPile"></div>
-        </div>
-
-        <!-- 錐形大底座 -->
-        <div class="machine-base">
-            
-            <!-- 手把指示牌 -->
-            <div class="hint-pulse" id="turnHint">扭一下！🌀</div>
-
-            <!-- 控制面板 + 旋鈕 -->
-            <div class="control-panel">
-                <div class="crank-handle" id="crank" onclick="twistCrank()">
-                    <div class="crank-bar"></div>
-                    <div class="crank-center"></div>
-                </div>
-            </div>
-
-            <!-- 出蛋口 -->
-            <div class="dispenser-gate">
-                <!-- 掉落後的蛋 (預設隱藏，旋轉後掉落於此) -->
-                <div class="out-ball" id="droppedBall" onclick="popMemory()"></div>
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- 底部說明文字 -->
-    <p class="text-slate-400 text-xs mt-12 text-center max-w-md leading-relaxed">
-        Mi 22nd Graduation Ceremony Capsule Machine<br>
-        <span class="opacity-60">© 2026 YG SELECT Style Event. Memories are Forever.</span>
-    </p>
-
-</div>
-
-<!-- 畢業紀念投影光幕 (開獎模態視窗) -->
-<div class="backdrop-modal" id="modalOverlay">
-    <div class="memory-projector" id="projectorCard">
-        <!-- 破裂的外殼 -->
-        <div class="capsule-break">
-            <div class="dome-half" id="leftDome"></div>
-            <div class="dome-half bottom" id="rightDome"></div>
-        </div>
-        
-        <!-- 祝福內容 -->
-        <div class="px-2">
-            <span class="text-sm font-bold tracking-widest uppercase opacity-60 block mb-1" id="capsuleColorLabel" style="color: var(--theme-color)">CORE MEMORY</span>
-            <h2 class="text-2xl md:text-3xl font-black mb-6 text-white tracking-wide" id="partnerName">Partner Name</h2>
-            
-            <div class="bg-black/40 rounded-2xl p-6 mb-8 border border-white/5 max-h-[220px] overflow-y-auto">
-                <p class="text-base md:text-lg leading-relaxed text-slate-100 font-medium whitespace-pre-line" id="partnerMsg">
-                    這裡會顯示夥伴留下來最真摯的話語...
-                </p>
-            </div>
-            
-            <button class="pulse-btn" onclick="closeProjector()">
-                再次轉動回憶
-            </button>
-        </div>
-    </div>
-</div>
-
-<script>
-    // 完美的 42 位微軟實習夥伴畢業寄語數據庫
-    const messages = [
-        { name: "Jen Tsai", msg: "很不想畢業啦大家😭😭遇見你們是這一年最大的幸運 大家未來都要順利🥺" },
-        { name: "Shawn Liu", msg: "抱怨歸抱怨 但是根本就不想要畢業\n儘管很幹很燥很氣很累 可是很懷念\n\n單押x2, BANG~" },
-        { name: "Becky Huang", msg: "這一年可以認識大家，有大家的陪伴是很幸福的一件事🫶🏻每個人都是這趟實習旅程的MVP，所以希望大家未來都可以順順利利，不管怎麼樣背後還有一群人相信你可以！" },
-        { name: "Morris Wang", msg: "希望大家都能找到下一步前進的方向！畢業快樂！" },
-        { name: "Joe Yu", msg: "非常開心可以成為 22 屆實習生的一份子，雖然我等於是遲到又早退哈哈哈，真心覺得第一份實習就可以這麼開心的我被寵壞了，只能說後面的公司要超越非常難~ 也很感謝各位實習生們的愛護，讓我叛逃還可以參加畢業典禮，愛大家" },
-        { name: "Adela Huang", msg: "在校園裡，全班熟識或許是難事，但在這裡，我們成為了最親密的朋友，做到了這件最不簡單的小事。" },
-        { name: "Tina Chung", msg: "很幸運也很開心可以和大家一起度過這收穫滿滿的一年，祝大家未來都能心想事成，前程似錦🎓" },
-        { name: "Chris Chiang", msg: "畢業快樂～" },
-        { name: "Chloe Cho", msg: "祝大家未來賺大錢" },
-        { name: "John Lin", msg: "Congratulations !!!" },
-        { name: "Antony Chen", msg: "這一年下來非常感謝大家，祝大家都可以開開心心畢業開心生活！" },
-        { name: "Melody Hung", msg: "願我們在各自的領域發光發熱，同時保持聯繫，謝謝你們讓我真正體會到微軟最大的寶藏是人這句話，一定後會有期 !" },
-        { name: "Ruby Wei", msg: "很幸運可以在微軟遇到一群一輩子的好朋友！每個人在我眼裡都閃閃發光✨祝大家畢業快樂！" },
-        { name: "Emily Sun", msg: "謝謝一路上並肩作戰的你們！因為有彼此的互相 carry，才圓滿了這段實習時光。\n\nWe empower each other. Let's achieve more! 🌟\n\n謝謝最棒的22屆！" },
-        { name: "Harry Kao", msg: "祝所有實習生都能拿到 offer~" },
-        { name: "Crystal Chang", msg: "希望大家有順利完成自己當初設下的期許與目標～" },
-        { name: "Bill Tseng", msg: "耶 要畢業了！\n祝大家未來一帆風順，\n之後還要常約出來玩哦～" },
-        { name: "Bamboo Chen", msg: "大家都很棒" },
-        { name: "Julie Chu", msg: "很開心能夠在這遇到所有很好很棒的人，一年來真的成長了很多!! Looking forward to our new chapter!\n\n謝謝用心辦畢典的畢典組!! 你們超棒，連表單都美死" },
-        { name: "Winnie Lee", msg: "未來可期的一群人 超級愛大家❤️❤️❤️" },
-        { name: "Ann Chen", msg: "能認識大家真的是我這一年來收穫最大的禮物🥹真的很幸運能有你們🫶🏻\n（蛤我可以打一大篇的 我不要畢業QQ）" },
-        { name: "Sophie Hsu", msg: "真的很幸運能遇到大家！祝大家畢業後都能繼續往自己想要的方向大步邁進👣" },
-        { name: "Kurt Shen", msg: "在這裡的大家都好溫暖而且很有自己的想法 祝大家都可以走出屬於自己的路 成為理想中的自己~" },
-        { name: "Emerson Jan", msg: "微軟的大家真的是我遇過最棒的一群人\n祝我們以後都會閃閃發光！\nEveryone's Future Looks So Bright✨" },
-        { name: "Mia Chen", msg: "大家都是溫暖的人，希望之後都能一路順利！" },
-        { name: "Cheryl Lee", msg: "很開心可以認識這麼多人，希望大家未來可以一切順利！" },
-        { name: "Jasmine Teng", msg: "可以在這段時間遇到這麼合這麼溫暖的大家真的是我這輩子最難忘的回憶！我好愛你們啦（邊打邊哭）" },
-        { name: "Phoebe Chuang", msg: "這一年的遇見已經太幸福，在這個充滿不確定的年紀能遇到給彼此滿滿能量的你們，謝謝每一個你和自己，雖然旅程要告一段落 但 best memories last forever, 帶著這一切還有勇氣向前吧" },
-        { name: "Hazel Chan", msg: "願我們都帶著這段真心的情誼與彼此的力量，勇敢追夢，也真心為彼此未來的每一次發光喝采！" },
-        { name: "Stephen Yeh", msg: "\"Life is like a slice of cake,\nyou never know the taste that waits.\"\n\nAnd somehow,\nthis internship became the richest, warmest, and most unforgettable bite I’ve ever had." },
-        { name: "Ainsley Hsieh", msg: "祝大家畢業快樂~" },
-        { name: "Allen Hsieh", msg: "大家都好強" },
-        { name: "Emily Liao", msg: "很高興這段實習的旅程可以遇見大家，希望以後的旅程也可以有你們的身影，一起創造更多記憶球吧!" },
-        { name: "Doris Yang", msg: "能來到這裡應該是用盡了朵朵這輩子所有的運氣了，能遇見你們每一個人我好幸福！（每次看到畢典 S+眼眶都在泛淚）" },
-        { name: "Alina Lin", msg: "You can and you will." },
-        { name: "Benjamin Chu", msg: "大家這一年辛苦了!因為在新竹所以不能常去公司真是有點遺憾Q" },
-        { name: "Lillian Chung", msg: "很高興可以認識大家<3" },
-        { name: "Kathy Mao", msg: "很幸運在 22 歲、最有衝勁跟青春的時候，遇見 22 屆的大家，想要感謝跟訴說給大家的太多，但腦海中的詞彙太少，很謝謝大家一年以來帶給我的所有！在五年十年的未來回想這段期間，一定會發自內心的笑著，大家都可以變成自己理想中的模樣的，現在只是我們實習階段的一個小終點，不是大家友誼的結尾，我們都要保持聯絡哦🫶🏻" },
-        { name: "Cheryl Yeung", msg: "很幸運也感恩遇到充滿活力的夥伴們!!" },
-        { name: "Matthew He", msg: "很有趣的初體驗！" },
-        { name: "Krystal Lin", msg: "祝福大家不管未來走向哪裡，都能記得自己這段時間用力生活的模樣，也繼續閃閃發光下去！" },
-        { name: "Luis Chou", msg: "很開心可以認識大家！" }
-    ];
-
-    // 繽紛炫彩的記憶球配色庫 (採用 Inside Out 繽紛微光感配色)
-    const neonColors = [
-        { main: "#ec4899", label: "Joyful Pink" },     // 櫻花粉
-        { main: "#3b82f6", label: "Sadness Blue" },   // 湖水藍
-        { main: "#eab308", label: "Golden Joy" },     // 亮金黃
-        { main: "#a855f7", label: "Fear Purple" },    // 迷幻紫
-        { main: "#10b981", label: "Disgust Green" },  // 薄荷綠
-        { main: "#f97316", label: "Anxiety Orange" }, // 夕陽橘
-        { main: "#ef4444", label: "Anger Red" },      // 烈焰紅
-        { main: "#06b6d4", label: "Cool Teal" },      // 電光藍
-        { main: "#14b8a6", label: "Dream Emerald" },  // 翡翠綠
-        { main: "#f43f5e", label: "Rose Heart" }      // 玫瑰金
-    ];
-
-    let currentRotation = 0;
-    let isTwisting = false;
-    let activeBallColor = "#3b82f6";
-
-    // 1. Web Audio API 音效合成器 (提供完美機械及清脆開球音效)
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-    function playSound(type) {
-        if (!audioCtx) return;
-        try {
+        function playSound(type) {
             if (audioCtx.state === 'suspended') {
                 audioCtx.resume();
             }
+            try {
+                const now = audioCtx.currentTime;
+                if (type === 'click') {
+                    // Quick console tap sound
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(300, now);
+                    osc.frequency.exponentialRampToValueAtTime(1200, now + 0.1);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.1);
+                } else if (type === 'dispense') {
+                    // Metallic console whirr and roll sound
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(100, now);
+                    osc.frequency.linearRampToValueAtTime(400, now + 0.5);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.5);
+                } else if (type === 'pop') {
+                    // Magical bubble burst
+                    const osc1 = audioCtx.createOscillator();
+                    const osc2 = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    
+                    osc1.type = 'sine';
+                    osc1.frequency.setValueAtTime(600, now);
+                    osc1.frequency.exponentialRampToValueAtTime(1800, now + 0.15);
+                    
+                    osc2.type = 'triangle';
+                    osc2.frequency.setValueAtTime(200, now);
+                    osc2.frequency.exponentialRampToValueAtTime(900, now + 0.2);
 
-            if (type === 'twist') {
-                // 機械旋轉齒輪聲
-                for (let i = 0; i < 4; i++) {
-                    setTimeout(() => {
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                    
+                    osc1.connect(gain);
+                    osc2.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    
+                    osc1.start(now);
+                    osc2.start(now);
+                    osc1.stop(now + 0.25);
+                    osc2.stop(now + 0.25);
+                }
+            } catch (e) {
+                console.log('Audio playback ignored or blocked by system settings.');
+            }
+        }
+    </script>
+
+    <!-- Ambient Background Lighting -->
+    <div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-10 right-1/4 w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[150px] pointer-events-none"></div>
+
+    <header class="w-full px-6 py-4 z-10 border-b border-white/5 glass-panel">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-cyan-400 via-pink-500 to-yellow-400 flex items-center justify-center shadow-lg text-white font-black text-xl tracking-tight">
+                    Mi
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-black bg-gradient-to-r from-yellow-300 via-pink-400 to-cyan-300 bg-clip-text text-transparent">
+                        Mi Core Memories - 22nd Graduation Ceremony
+                    </h1>
+                    <p class="text-xs text-indigo-200/70 tracking-wide font-semibold flex items-center gap-1.5">
+                        <span class="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                        五顏六色發光記憶球星雲 · 22 屆畢業生祝福扭蛋機 🎓
+                    </p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <button onclick="toggleMusic(this)" id="bgm-btn" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-semibold transition flex items-center gap-2 border border-white/10">
+                    <i class="fa-solid fa-volume-xmark text-cyan-400"></i>
+                    <span>背景療癒音樂</span>
+                </button>
+                <div class="text-xs px-3 py-1.5 rounded-lg bg-indigo-500/20 text-indigo-200 font-semibold border border-indigo-500/30">
+                    <i class="fa-solid fa-graduation-cap mr-1 text-pink-400"></i> 22 屆實習生限定
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="w-full max-w-7xl mx-auto px-4 py-6 flex-grow grid grid-cols-1 lg:grid-cols-12 gap-6 z-10">
+        
+        <!-- Left Side: Interactive Gashapon Machine (Cols: 5) -->
+        <section class="lg:col-span-5 flex flex-col gap-6">
+            
+            <!-- Gashapon Machine Container -->
+            <div class="glass-panel rounded-3xl p-6 flex flex-col items-center justify-between relative overflow-hidden group border border-white/10">
+                <div class="w-full flex justify-between items-center mb-4">
+                    <h3 class="text-sm font-bold tracking-widest text-cyan-300 uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles text-pink-400"></i>
+                        核心記憶抽取 console
+                    </h3>
+                    <span id="gashapon-count" class="text-xs bg-indigo-950 px-2.5 py-1 rounded-full text-indigo-200 border border-indigo-500/30 font-semibold">
+                        載入中..
+                    </span>
+                </div>
+
+                <!-- Dispenser Core (Visual Dome with colorful interactive orbs) -->
+                <div class="w-full h-64 bg-slate-950/80 rounded-2xl relative overflow-hidden border border-white/5 flex items-center justify-center mb-6">
+                    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-indigo-950/60 pointer-events-none"></div>
+                    
+                    <!-- Glowing Grid background -->
+                    <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(rgba(255,255,255,0.15) 1px, transparent 1px); background-size: 16px 16px;"></div>
+                    
+                    <!-- Capsule Balls visually bouncing or floating in the dome -->
+                    <div id="dome-balls" class="absolute inset-0 pointer-events-none flex flex-wrap justify-center items-center gap-2 p-8 overflow-hidden">
+                        <!-- Dynamic colorful elements will be injected via JS -->
+                    </div>
+
+                    <!-- Glowing Core Microsoft Logo in the dome background (inspired by "主視覺.png" background center) -->
+                    <div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+                        <div class="grid grid-cols-2 gap-2 w-20 h-20">
+                            <div class="bg-red-500 rounded-sm"></div>
+                            <div class="bg-green-500 rounded-sm"></div>
+                            <div class="bg-blue-500 rounded-sm"></div>
+                            <div class="bg-yellow-500 rounded-sm"></div>
+                        </div>
+                    </div>
+
+                    <!-- Output slot where capsules "fall" -->
+                    <div class="absolute bottom-0 w-36 h-12 bg-zinc-800 rounded-t-full border-t border-zinc-600 flex justify-center items-center shadow-inner">
+                        <div class="w-14 h-4 bg-zinc-950 rounded-full"></div>
+                    </div>
+
+                    <!-- Animated dropping capsule placeholder -->
+                    <div id="dropped-capsule" class="absolute bottom-4 hidden cursor-pointer z-20">
+                        <div id="capsule-visual" class="w-14 h-14 rounded-full flex items-center justify-center font-bold text-2xl text-white transform hover:scale-110 transition filter drop-shadow-[0_0_12px_rgba(255,255,255,0.8)]">
+                            🔮
+                        </div>
+                        <div class="absolute -top-1 -right-1 flex h-3 w-3">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
+                        </div>
+                        <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] bg-slate-900 px-2 py-0.5 rounded text-pink-300 font-bold tracking-wider animate-bounce">點我打開</span>
+                    </div>
+                </div>
+
+                <!-- Console Controls -->
+                <div class="w-full flex gap-4 items-center">
+                    <!-- Spinning dial/lever mechanism -->
+                    <div class="flex flex-col items-center">
+                        <div id="gashapon-handle" onclick="dispenseMemory()" class="w-16 h-16 rounded-full bg-slate-800 border-4 border-slate-700 flex items-center justify-center cursor-pointer hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(34,211,238,0.5)] transition active:scale-95">
+                            <i id="lever-arrow" class="fa-solid fa-arrows-spin text-cyan-400 text-xl" style="transition: transform 1s ease-out;"></i>
+                        </div>
+                        <span class="text-[10px] text-slate-400 font-bold mt-1 uppercase">扭一扭</span>
+                    </div>
+
+                    <!-- Dispense Big Button -->
+                    <button onclick="dispenseMemory()" class="flex-grow py-4 px-6 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-600 to-cyan-500 hover:from-pink-400 hover:via-purple-500 hover:to-cyan-400 text-white font-bold tracking-wider transition transform hover:-translate-y-0.5 active:translate-y-0 shadow-lg flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-wand-magic-sparkles text-yellow-300 animate-pulse"></i>
+                        <span>扭出一顆畢業記憶球 🔮</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Add Core Memory Transmitter Form -->
+            <div class="glass-panel rounded-3xl p-6 border border-white/10 flex flex-col gap-4">
+                <h3 class="text-sm font-bold tracking-wider text-cyan-300 flex items-center gap-2">
+                    <i class="fa-solid fa-paper-plane text-cyan-400"></i>
+                    投遞你的專屬回憶 (新增畢業感言)
+                </h3>
+                
+                <div class="flex flex-col gap-3">
+                    <div>
+                        <label class="text-xs text-slate-400 font-semibold mb-1 block">署名/別名 (選填)</label>
+                        <input type="text" id="mem-author" placeholder="例如：微軟最帥實習生" class="w-full bg-slate-900/80 border border-white/10 rounded-xl px-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition">
+                    </div>
+
+                    <div>
+                        <label class="text-xs text-slate-400 font-semibold mb-1 block">留言內容 (核心記憶內容)</label>
+                        <textarea id="mem-content" rows="3" placeholder="寫下在這裡最深刻的事：一起在微軟辦公室熬夜寫Code、趕Demo、咖啡點心補給站，或者是搞笑的趣事..." class="w-full bg-slate-900/80 border border-white/10 rounded-xl px-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition resize-none"></textarea>
+                    </div>
+
+                    <!-- Beautiful Color Picker for customizable colored orbs -->
+                    <div>
+                        <label class="text-xs text-slate-400 font-semibold mb-1 block">選擇這顆記憶球的發光顏色：</label>
+                        <div id="color-selectors" class="grid grid-cols-5 gap-2">
+                            <!-- Injected dynamically via JavaScript based on THEME_MAP -->
+                        </div>
+                    </div>
+
+                    <!-- Hidden parameter for currently selected color theme -->
+                    <input type="hidden" id="selected-theme-val" value="pink">
+
+                    <button onclick="submitNewMemory()" class="w-full mt-2 py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-semibold text-sm transition-all shadow-md flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>送出繽紛球至核心星雲 ✨</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="lg:col-span-7 flex flex-col gap-6">
+            <div class="glass-panel rounded-3xl p-6 flex-grow flex flex-col border border-white/10 relative overflow-hidden min-h-[500px]">
+                
+                <!-- Mind Map Information bar -->
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-4 z-10">
+                    <div>
+                        <h2 class="text-lg font-black tracking-wide text-white flex items-center gap-2">
+                            <i class="fa-solid fa-cloud text-pink-400 animate-pulse"></i>
+                            22 屆核心繽紛記憶球星雲 (文字雲)
+                        </h2>
+                        <p class="text-xs text-slate-400">滑鼠滑過可聚焦觀看，點擊任一記憶球，投射放映完整畢業心聲！</p>
+                    </div>
+                </div>
+
+                <!-- Color Filter Bar -->
+                <div class="flex flex-wrap gap-1.5 mb-4 z-10 bg-black/30 p-2 rounded-xl border border-white/5">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase self-center mr-1">星雲色系：</span>
+                    <button onclick="filterColor('all')" class="filter-btn text-[10px] px-2.5 py-1 rounded bg-indigo-900 border border-indigo-400/40 font-bold hover:bg-indigo-800 transition ring-2 ring-white scale-105">全部</button>
+                    <button onclick="filterColor('pink')" class="filter-btn text-[10px] px-2.5 py-1 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30 font-bold hover:bg-rose-500/40 transition">桃紅</button>
+                    <button onclick="filterColor('cyan')" class="filter-btn text-[10px] px-2.5 py-1 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-bold hover:bg-cyan-500/40 transition">湖藍</button>
+                    <button onclick="filterColor('gold')" class="filter-btn text-[10px] px-2.5 py-1 rounded bg-yellow-500/20 text-yellow-300 border border-yellow-500/30 font-bold hover:bg-yellow-500/40 transition">亮金</button>
+                    <button onclick="filterColor('purple')" class="filter-btn text-[10px] px-2.5 py-1 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30 font-bold hover:bg-purple-500/40 transition">極光紫</button>
+                    <button onclick="filterColor('emerald')" class="filter-btn text-[10px] px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold hover:bg-emerald-500/40 transition">翡翠綠</button>
+                </div>
+
+                <!-- Canvas Wrapper -->
+                <div class="flex-grow w-full relative rounded-2xl bg-black/40 border border-white/5 overflow-hidden min-h-[400px]">
+                    <canvas id="mind-canvas" class="absolute inset-0 cursor-grab active:cursor-grabbing w-full h-full"></canvas>
+                    
+                    <!-- Star background inside the canvas container for depth -->
+                    <div class="absolute inset-0 pointer-events-none opacity-40" style="background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px); background-size: 120px 120px; background-position: 10px 10px;"></div>
+                    
+                    <!-- Live Canvas Hover HUD Display -->
+                    <div id="canvas-hud" class="absolute bottom-4 left-4 right-4 bg-slate-900/90 border border-white/10 px-4 py-2.5 rounded-xl pointer-events-none opacity-0 transition-opacity duration-300 text-xs flex justify-between items-center gap-2 z-20">
+                        <span id="hud-author" class="font-bold text-yellow-300"></span>
+                        <span id="hud-text" class="text-slate-300 truncate max-w-[70%]"></span>
+                        <span class="text-[10px] bg-pink-500/30 text-pink-200 px-1.5 py-0.5 rounded font-bold uppercase tracking-wide">點擊投影</span>
+                    </div>
+                </div>
+
+                <!-- Graduation Core Memories count statistics -->
+                <div class="mt-4 flex flex-wrap justify-between items-center text-xs text-slate-400">
+                    <span class="flex items-center gap-1.5">
+                        <i class="fa-solid fa-info-circle text-cyan-400"></i>
+                        五彩繽紛記憶球：大小代表文字長度(代表在這裡蘊藏的豐盛回憶)
+                    </span>
+                    <button onclick="scatterStarryOrbs()" class="text-cyan-300 hover:text-white font-semibold transition flex items-center gap-1 mt-1 sm:mt-0">
+                        <i class="fa-solid fa-shuffle"></i> 隨機打散重組
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="w-full text-center py-6 px-4 border-t border-white/5 mt-6 z-10 glass-panel">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-400 font-medium">
+            <p>© 2026 Mi Core Memories Team. Designed for Microsoft 22nd Graduation Ceremony.</p>
+            <div class="flex gap-4">
+                <a href="#" class="hover:text-yellow-400 transition">記憶投影大腦控制台</a>
+                <span class="text-white/10">|</span>
+                <a href="#" class="hover:text-pink-400 transition">微軟實習22屆核心記憶</a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="memory-modal" class="fixed inset-0 bg-slate-950/95 flex items-center justify-center p-4 z-50 hidden backdrop-blur-md">
+        <!-- Projection ray effect in modal background -->
+        <div class="absolute inset-0 bg-radial-gradient from-transparent via-purple-950/10 to-transparent pointer-events-none"></div>
+        
+        <!-- Modal Card Wrapper -->
+        <div id="modal-card" class="max-w-lg w-full rounded-3xl p-8 border relative overflow-hidden transform scale-95 opacity-0 transition-all duration-300 shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+            <!-- Glow background circle inside modal -->
+            <div id="modal-glow-bg" class="absolute -top-32 -left-32 w-64 h-64 rounded-full blur-[80px] pointer-events-none opacity-50"></div>
+            
+            <!-- Close Button -->
+            <button onclick="closeMemoryModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 text-white flex items-center justify-center transition focus:outline-none z-30">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Playback HUD -->
+            <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+                <div class="flex items-center gap-2">
+                    <span id="modal-emotion-pill" class="text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full text-white">
+                        CORE PLAYBACK
+                    </span>
+                    <span class="text-xs text-slate-400 flex items-center gap-1.5">
+                        <span class="inline-block w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+                        腦內影院播放中
+                    </span>
+                </div>
+                <div class="text-[10px] text-cyan-300 font-black">
+                    ORB# <span id="modal-id">00</span>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="space-y-6 relative z-10">
+                <!-- Message visual frame -->
+                <div class="bg-black/40 p-6 rounded-2xl border border-white/5 shadow-inner">
+                    <p id="modal-content" class="text-base md:text-lg leading-relaxed text-white font-medium whitespace-pre-wrap">
+                        「想對大家說的话...」
+                    </p>
+                </div>
+
+                <!-- Author info -->
+                <div class="flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] text-slate-500 uppercase block font-bold">記憶刻印來源</span>
+                        <span id="modal-author" class="text-sm font-bold text-white">快樂的核心腦細胞</span>
+                    </div>
+                    
+                    <div class="text-right">
+                        <span class="text-[10px] text-slate-500 uppercase block font-bold">記憶球色系</span>
+                        <span id="modal-color-name" class="text-xs font-semibold text-yellow-400">璀璨金黃色</span>
+                    </div>
+                </div>
+
+                <!-- Interaction / Copy message -->
+                <div class="pt-4 flex justify-between gap-2">
+                    <button onclick="copyCurrentMemoryText()" class="flex-grow py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold transition flex items-center justify-center gap-2 text-indigo-100">
+                        <i class="fa-solid fa-copy"></i> 複製此記憶對話
+                    </button>
+                    <button onclick="closeMemoryModal()" class="py-2.5 px-6 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-xs font-bold transition text-white">
+                        返回主控制台
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Beautiful, highly distinct glowing color maps to represent the "五顏六色" multi-colored memory cloud (10 unique beautiful color combinations)
+        const THEME_MAP = {
+            pink: {
+                name: "浪漫櫻花粉",
+                color: "#ff8da1", // Radiant pink
+                glow: "rgba(255, 141, 161, 0.8)",
+                pillBg: "bg-pink-500",
+                buttonStyle: "bg-pink-500/20 text-pink-300 border-pink-500/40"
+            },
+            cyan: {
+                name: "科技湖水藍",
+                color: "#34d399", // Neon teal
+                glow: "rgba(52, 211, 153, 0.8)",
+                pillBg: "bg-emerald-500",
+                buttonStyle: "bg-emerald-500/20 text-emerald-300 border-emerald-500/40"
+            },
+            gold: {
+                name: "璀璨極光金",
+                color: "#fbbf24", // Gold Yellow
+                glow: "rgba(251, 191, 36, 0.8)",
+                pillBg: "bg-amber-500",
+                buttonStyle: "bg-amber-500/20 text-amber-300 border-amber-500/40"
+            },
+            purple: {
+                name: "神秘星空紫",
+                color: "#c084fc", // Purple violet
+                glow: "rgba(192, 132, 252, 0.8)",
+                pillBg: "bg-purple-500",
+                buttonStyle: "bg-purple-500/20 text-purple-300 border-purple-500/40"
+            },
+            emerald: {
+                name: "清新馬卡綠",
+                color: "#34d399", // Mint emerald
+                glow: "rgba(52, 211, 153, 0.8)",
+                pillBg: "bg-emerald-400",
+                buttonStyle: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30"
+            },
+            orange: {
+                name: "暖心夕陽橘",
+                color: "#fb923c", // Vibrant orange
+                glow: "rgba(251, 146, 60, 0.8)",
+                pillBg: "bg-orange-500",
+                buttonStyle: "bg-orange-500/20 text-orange-300 border-orange-500/40"
+            },
+            blue: {
+                name: "蔚藍海岸藍",
+                color: "#60a5fa", // Electric blue
+                glow: "rgba(96, 165, 250, 0.8)",
+                pillBg: "bg-blue-500",
+                buttonStyle: "bg-blue-500/20 text-blue-300 border-blue-500/40"
+            },
+            magenta: {
+                name: "狂放迷幻紅",
+                color: "#f43f5e", // Hot magenta
+                glow: "rgba(244, 63, 94, 0.8)",
+                pillBg: "bg-rose-600",
+                buttonStyle: "bg-rose-500/20 text-rose-300 border-rose-500/40"
+            },
+            lime: {
+                name: "炫目螢光綠",
+                color: "#a3e635", // Lime glow
+                glow: "rgba(163, 230, 53, 0.8)",
+                pillBg: "bg-lime-500",
+                buttonStyle: "bg-lime-500/20 text-lime-300 border-lime-500/40"
+            },
+            peach: {
+                name: "甜心水蜜桃",
+                color: "#fda4af", // Peach pink
+                glow: "rgba(253, 164, 175, 0.8)",
+                pillBg: "bg-rose-300 text-slate-950",
+                buttonStyle: "bg-rose-300/20 text-rose-200 border-rose-300/40"
+            }
+        };
+
+        // All 42 real memories mapped with randomized gorgeous color themes to guarantee a dazzling colorful shelf of globes!
+        const DEFAULT_MEMORIES = [
+            { id: 1, author: "Jen Tsai", content: "很不想畢業啦大家😭😭遇見你們是這一年最大的幸運 大家未來都要順利🥺", theme: "pink", weight: 32 },
+            { id: 2, author: "Shawn Liu", content: "抱怨歸抱怨 但是根本就不想要畢業\n儘管很幹很燥很氣很累 可是很懷念\n\n單押x2, BANG~", theme: "magenta", weight: 35 },
+            { id: 3, author: "Becky Huang", content: "這一年可以認識大家，有大家的陪伴是很幸福的一件事🫶🏻每個人都是這趟實習旅程的MVP，所以希望大家未來都可以順順利利，不管怎麼樣背後還有一群人相信你可以！", theme: "gold", weight: 42 },
+            { id: 4, author: "Morris Wang", content: "希望大家都能找到下一步前進的方向！畢業快樂！", theme: "cyan", weight: 24 },
+            { id: 5, author: "Joe Yu", content: "非常開心可以成為 22 屆實習生的一份子，雖然我等於是遲到又早退哈哈哈，真心覺得第一份實習就可以這麼開心的我被寵壞了，只能說後面的公司要超越非常難~ 也很感謝各位實習生們的愛護，讓我叛逃還可以參加畢業典禮，愛大家", theme: "orange", weight: 48 },
+            { id: 6, author: "Adela Huang", content: "在校園裡，全班熟識或許是難事，但在這裡，我們成為了最親密的朋友，做到了這件最不簡單的小事。", theme: "emerald", weight: 34 },
+            { id: 7, author: "Tina Chung", content: "很幸運也很開心可以和大家一起度過這收穫滿滿的一年，祝大家未來都能心想事成，前程似錦🎓", theme: "blue", weight: 32 },
+            { id: 8, author: "Chris Chiang", content: "畢業快樂～", theme: "lime", weight: 18 },
+            { id: 9, author: "Chloe Cho", content: "祝大家未來賺大錢", theme: "gold", weight: 20 },
+            { id: 10, author: "John Lin", content: "Congratulations !!!", theme: "purple", theme: "peach", weight: 18 },
+            { id: 11, author: "Antony Chen", content: "這一年下來非常感謝大家，祝大家都可以開開心心畢業開心生活！", theme: "cyan", weight: 26 },
+            { id: 12, author: "Melody Hung", content: "願我們在各自的領域發光發熱，同時保持聯繫，謝謝你們讓我真正體會到微軟最大的寶藏是人這句話，一定後會有期 !", theme: "pink", weight: 36 },
+            { id: 13, author: "Ruby Wei", content: "很幸運可以在微軟遇到一群一輩子的好朋友！每個人在我眼裡都閃閃發光✨祝大家畢業快樂！", theme: "magenta", weight: 32 },
+            { id: 14, author: "Emily Sun", content: "謝謝一路上並肩作戰的你們！因為有彼此的互相 carry，才圓滿了這段實習時光。\n\nWe empower each other. Let's achieve more! 🌟\n\n謝謝最棒的22屆！", theme: "purple", weight: 40 },
+            { id: 15, author: "Harry Kao", content: "祝所有實習生都能拿到 offer~", theme: "orange", weight: 24 },
+            { id: 16, author: "Crystal Chang", content: "希望大家有順利完成自己當初設下的期許與目標～", theme: "emerald", weight: 26 },
+            { id: 17, author: "Bill Tseng", content: "耶 要畢業了！\n祝大家未來一帆風順，\n之後還要常約出來玩哦～", theme: "blue", weight: 30 },
+            { id: 18, author: "Bamboo Chen", content: "大家都很棒", theme: "lime", weight: 18 },
+            { id: 19, author: "Julie Chu", content: "很開心能夠在這遇到所有很好很棒的人，一年來真的成長了很多!! Looking forward to our new chapter!\n\n謝謝用心辦畢典的畢典組!! 你們超棒，連表單都美死", theme: "peach", weight: 40 },
+            { id: 20, author: "Winnie Lee", content: "未來可期的一群人 超級愛大家❤️❤️❤️", theme: "pink", weight: 24 },
+            { id: 21, author: "Ann Chen", content: "能認識大家真的是我這一年來收穫最大的禮物🥹真的很幸運能有你們🫶🏻\n（蛤我可以打一大篇的 我不要畢業QQ）", theme: "blue", weight: 36 },
+            { id: 22, author: "Sophie Hsu", content: "真的很幸運能遇到大家！祝大家畢業後都能繼續往自己想要的方向大步邁進👣", theme: "emerald", weight: 30 },
+            { id: 23, author: "Kurt Shen", content: "在這裡的大家都好溫暖而且很有自己的想法 祝大家都可以走出屬於自己的路 成為理想中的自己~", theme: "gold", weight: 32 },
+            { id: 24, author: "Emerson Jan", content: "微軟的大家真的是我遇過最棒的一群人\n祝我們以後都會閃閃發光！\nEveryone's Future Looks So Bright✨", theme: "purple", weight: 35 },
+            { id: 25, author: "Mia Chen", content: "大家都是溫暖的人，希望之後都能一路順利！", theme: "cyan", weight: 24 },
+            { id: 26, author: "Cheryl Lee", content: "很開心可以認識這麼多人，希望大家未來可以一切順利！", theme: "peach", weight: 24 },
+            { id: 27, author: "Jasmine Teng", content: "可以在這段時間遇到這麼合這麼溫暖的大家真的是我這輩子最難忘的回憶！我好愛你們啦（邊打邊哭）", theme: "magenta", weight: 38 },
+            { id: 28, author: "Phoebe Chuang", content: "這一年的遇見已經太幸福，在這個充滿不確定的年紀能遇到給彼此滿滿能量的你們，謝謝每一個你和自己，雖然旅程要告一段落 但 best memories last forever, 帶著這一切還有勇氣向前吧", theme: "orange", weight: 42 },
+            { id: 29, author: "Hazel Chan", content: "願我們都帶著這段真心的情誼與彼此的力量，勇敢追夢，也真心為彼此未來的每一次發光喝采！", theme: "emerald", weight: 32 },
+            { id: 30, author: "Stephen Yeh", content: "\"Life is like a slice of cake,\nyou never know the taste that waits.\"\n\nAnd somehow,\nthis internship became the richest, warmest, and most unforgettable bite I’ve ever had.", theme: "blue", weight: 38 },
+            { id: 31, author: "Ainsley Hsieh", content: "祝大家畢業快樂~", theme: "lime", weight: 18 },
+            { id: 32, author: "Allen Hsieh", content: "大家都好強", theme: "purple", weight: 20 },
+            { id: 33, author: "Emily Liao", content: "很高興這段實習的旅程可以遇見大家，希望以後的旅程也可以有你們的身影，一起創造更多記憶球吧!", theme: "pink", weight: 32 },
+            { id: 34, author: "Doris Yang", content: "能來到這裡應該是用盡了朵朵這輩子所有的運氣了，能遇見你們每一個人我好幸福！（每次看到畢典 S+眼眶都在泛淚）", theme: "magenta", weight: 38 },
+            { id: 35, author: "Alina Lin", content: "You can and you will.", theme: "cyan", weight: 18 },
+            { id: 36, author: "Benjamin Chu", content: "大家這一年辛苦了!因為在新竹所以不能常去公司真是有點遺憾Q", theme: "blue", weight: 30 },
+            { id: 37, author: "Lillian Chung", content: "很高興可以認識大家<3", theme: "peach", weight: 18 },
+            { id: 38, author: "Kathy Mao", content: "很幸運在 22 歲、最有衝勁跟青春的時候，遇見 22 屆的大家，想要感謝跟訴說給大家的太多，但腦海中的詞彙太少，很謝謝大家一年以來帶給我的所有！在五年十年的未來回想這段期間，一定會發自內心的笑著，大家都可以變成自己理想中的模樣的，現在只是我們實習階段的一個小終點，不是大家友誼的結尾，我們都要保持聯絡哦🫶🏻", theme: "gold", weight: 52 },
+            { id: 39, author: "Cheryl Yeung", content: "很幸運也感恩遇到充滿活力的夥伴們!!", theme: "orange", weight: 24 },
+            { id: 40, author: "Matthew He", content: "很有趣的初體驗！", theme: "lime", weight: 18 },
+            { id: 41, author: "Krystal Lin", content: "祝福大家不管未來走向哪裡，都能記得自己這段時間用力生活的模樣，也繼續閃閃發光下去！", theme: "purple", weight: 32 },
+            { id: 42, author: "Luis Chou", content: "很開心可以認識大家！", theme: "cyan", weight: 18 }
+        ];
+
+        let memories = [...DEFAULT_MEMORIES];
+        let selectedTheme = 'pink';
+        let currentFilter = 'all';
+        let isGashaponDispensing = false;
+        let isBgmPlaying = false;
+        let bgmInterval;
+
+        const canvas = document.getElementById('mind-canvas');
+        const ctx = canvas.getContext('2d');
+        let balls = [];
+        let mouse = { x: null, y: null };
+        let mouseOverBall = null;
+
+        function resizeCanvas() {
+            const rect = canvas.parentNode.getBoundingClientRect();
+            canvas.width = rect.width * window.devicePixelRatio;
+            canvas.height = rect.height * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            
+            balls.forEach(ball => {
+                if (ball.x > rect.width) ball.x = Math.random() * rect.width;
+                if (ball.y > rect.height) ball.y = Math.random() * rect.height;
+            });
+        }
+
+        // Beautiful Interactive Color Switcher for Submission Form
+        function renderColorFormSelectors() {
+            const container = document.getElementById('color-selectors');
+            container.innerHTML = '';
+            Object.keys(THEME_MAP).forEach((key, index) => {
+                const config = THEME_MAP[key];
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = `w-8 h-8 rounded-full border-2 border-transparent transition-all hover:scale-110 shadow-md flex items-center justify-center`;
+                btn.style.backgroundColor = config.color;
+                btn.style.boxShadow = `0 0 8px ${config.glow}`;
+                btn.title = config.name;
+                btn.onclick = (e) => selectFormTheme(key, btn);
+                if (index === 0) {
+                    btn.classList.add('border-white', 'scale-115');
+                    selectFormTheme(key, btn);
+                }
+                container.appendChild(btn);
+            });
+        }
+
+        function selectFormTheme(theme, element) {
+            playSound('click');
+            selectedTheme = theme;
+            document.getElementById('selected-theme-val').value = theme;
+
+            const buttons = document.querySelectorAll('#color-selectors button');
+            buttons.forEach(btn => {
+                btn.classList.remove('border-white', 'scale-115');
+            });
+            if (element) {
+                element.classList.add('border-white', 'scale-115');
+            }
+        }
+
+        function toggleMusic(btn) {
+            playSound('click');
+            if (!isBgmPlaying) {
+                isBgmPlaying = true;
+                btn.classList.add('bg-pink-600/30', 'text-white');
+                btn.innerHTML = `<i class="fa-solid fa-volume-high text-yellow-300 animate-bounce"></i> <span>播放中...</span>`;
+                startAmbientBgm();
+            } else {
+                isBgmPlaying = false;
+                btn.classList.remove('bg-pink-600/30', 'text-white');
+                btn.innerHTML = `<i class="fa-solid fa-volume-xmark text-cyan-400"></i> <span>背景療癒音樂</span>`;
+                stopAmbientBgm();
+            }
+        }
+
+        function startAmbientBgm() {
+            try {
+                let index = 0;
+                // Healing atmospheric chords (Nostalgic harmony for beautiful graduation ambiance)
+                const chords = [
+                    [261.63, 329.63, 392.00, 493.88], // Cmaj7 (Glowing Joy)
+                    [293.66, 349.23, 440.00, 523.25], // Dm7 (Dreamy Ocean)
+                    [329.63, 392.00, 493.88, 587.33], // Em7 (Calming Sparkle)
+                    [349.23, 440.00, 523.25, 659.25]  // Fmaj7 (Beautiful Horizon)
+                ];
+
+                bgmInterval = setInterval(() => {
+                    if (!isBgmPlaying) return;
+                    const chord = chords[index % chords.length];
+                    const now = audioCtx.currentTime;
+                    chord.forEach((freq, idx) => {
                         const osc = audioCtx.createOscillator();
                         const gain = audioCtx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.15);
+                        gain.gain.setValueAtTime(0, now);
+                        gain.gain.linearRampToValueAtTime(0.04, now + 1);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + 4);
+                        
                         osc.connect(gain);
                         gain.connect(audioCtx.destination);
-                        osc.type = 'triangle';
-                        osc.frequency.setValueAtTime(100 - (i * 15), audioCtx.currentTime);
-                        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-                        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
-                        osc.start();
-                        osc.stop(audioCtx.currentTime + 0.12);
-                    }, i * 150);
-                }
-            } else if (type === 'drop') {
-                // 球體滾落至出口的撞擊聲
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(220, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.25);
-                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.25);
-            } else if (type === 'pop') {
-                // 啵一聲清脆地爆開
-                const osc = audioCtx.createOscillator();
-                const osc2 = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                
-                osc.connect(gain);
-                osc2.connect(gain);
-                gain.connect(audioCtx.destination);
-                
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(400, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.18);
-                
-                osc2.type = 'triangle';
-                osc2.frequency.setValueAtTime(200, audioCtx.currentTime);
-                osc2.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.18);
-
-                gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.18);
-                
-                osc.start();
-                osc2.start();
-                osc.stop(audioCtx.currentTime + 0.18);
-                osc2.stop(audioCtx.currentTime + 0.18);
+                        osc.start(now);
+                        osc.stop(now + 4);
+                    });
+                    index++;
+                }, 4500);
+            } catch (e) {
+                console.log('Generative ambient sound blocked by browser autoplay policy.');
             }
-        } catch (e) {
-            console.log("Audio play failed:", e);
         }
-    }
 
-    // 2. 隨機生成背景小微光，讓主視覺更生動
-    function initSparkles() {
-        const sparklesContainer = document.getElementById('sparkles');
-        const count = 35;
-        for (let i = 0; i < count; i++) {
-            const dot = document.createElement('div');
-            dot.className = 'sparkle-dot';
-            const size = Math.random() * 4 + 2;
-            dot.style.width = size + 'px';
-            dot.style.height = size + 'px';
-            dot.style.left = Math.random() * 100 + 'vw';
-            dot.style.top = Math.random() * 100 + 'vh';
-            dot.style.animationDelay = Math.random() * 4 + 's';
-            dot.style.animationDuration = Math.random() * 3 + 2 + 's';
-            
-            // 隨機發光微光色彩
-            const colorIndex = Math.floor(Math.random() * neonColors.length);
-            dot.style.boxShadow = `0 0 10px ${neonColors[colorIndex].main}`;
-            dot.style.backgroundColor = neonColors[colorIndex].main;
-            
-            sparklesContainer.appendChild(dot);
+        function stopAmbientBgm() {
+            clearInterval(bgmInterval);
         }
-    }
 
-    // 3. 在圓形大玻璃罩中畫出滿滿堆疊、色彩繽紛的球
-    function fillGlobe() {
-        const pile = document.getElementById('ballsPile');
-        pile.innerHTML = '';
-        const totalBalls = 32;
-        
-        // 玻璃球中心 (165, 155) 半徑約 140
-        for (let i = 0; i < totalBalls; i++) {
-            const b = document.createElement('div');
-            b.className = 'gashapon-ball';
-            
-            // 隨機彩球大小與配色
-            const r = Math.random() * 6 + 32; // 圓形球半徑在 32~38px
-            const colorObj = neonColors[Math.floor(Math.random() * neonColors.length)];
-            
-            // 透過極座標在圓內均勻堆疊
-            const angle = Math.random() * Math.PI; // 只分布在下半圓
-            const radius = Math.random() * 105;    // 與中心的距離
-            const x = 165 + radius * Math.cos(angle) - r;
-            const y = 185 + radius * Math.sin(angle) - r;
+        class MemoryBall {
+            constructor(memory) {
+                this.memory = memory;
+                this.updateDimensions();
+                const rect = canvas.parentNode.getBoundingClientRect();
+                this.x = Math.random() * (rect.width - 100) + 50;
+                this.y = Math.random() * (rect.height - 100) + 50;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                
+                const themeConfig = THEME_MAP[memory.theme] || THEME_MAP['pink'];
+                this.hue = themeConfig.color;
+                this.glow = themeConfig.glow;
+                
+                this.friction = 0.995;
+                this.spring = 0.05;
+                this.baseRadius = this.radius;
+                this.targetRadius = this.radius;
+            }
 
-            b.style.width = (r * 2) + 'px';
-            b.style.height = (r * 2) + 'px';
-            b.style.left = x + 'px';
-            b.style.top = y + 'px';
-            
-            // 完美的 3D 質感玻璃球漸層
-            b.style.background = `radial-gradient(circle at 35% 35%, #ffffff 0%, ${colorObj.main} 40%, rgba(0, 0, 0, 0.8) 100%)`;
-            b.style.boxShadow = `0 4px 10px rgba(0,0,0,0.5), inset -4px -4px 10px rgba(0,0,0,0.4), 0 0 12px ${colorObj.main}33`;
-            
-            pile.appendChild(b);
+            updateDimensions() {
+                // Size matches character lengths of partners (Bigger length means beautiful rich memories!)
+                const base = Math.min(Math.max(this.memory.weight * 0.9, 24), 55);
+                this.radius = base;
+                this.baseRadius = base;
+            }
+
+            draw() {
+                ctx.save();
+                
+                // Outer colorful glowing shadow (recreating glass spheres from "主視覺.png")
+                ctx.shadowBlur = mouseOverBall === this ? 24 : 10;
+                ctx.shadowColor = this.hue;
+                
+                // Radial shiny sphere gradient
+                const grad = ctx.createRadialGradient(
+                    this.x - this.radius * 0.3,
+                    this.y - this.radius * 0.3,
+                    this.radius * 0.1,
+                    this.x,
+                    this.y,
+                    this.radius
+                );
+                
+                grad.addColorStop(0, '#ffffff');
+                grad.addColorStop(0.35, this.hue);
+                grad.addColorStop(1, '#0c0721');
+
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Top crescent highlight arc for stunning crystal look
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius - 2, Math.PI * 1.2, Math.PI * 1.8);
+                ctx.stroke();
+
+                // Centered text for the nickname
+                ctx.shadowBlur = 0; 
+                ctx.fillStyle = '#ffffff';
+                ctx.font = `bold ${Math.max(this.radius * 0.24, 8)}px 'Noto Sans TC'`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                let text = this.memory.author;
+                if (text.length > 6) text = text.substring(0, 5) + '..';
+                ctx.fillText(text, this.x, this.y);
+
+                ctx.restore();
+            }
+
+            update() {
+                const rect = canvas.parentNode.getBoundingClientRect();
+                
+                // Floating kinematics
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Wall bounce physics
+                if (this.x - this.radius < 0) {
+                    this.x = this.radius;
+                    this.vx *= -1;
+                } else if (this.x + this.radius > rect.width) {
+                    this.x = rect.width - this.radius;
+                    this.vx *= -1;
+                }
+
+                if (this.y - this.radius < 0) {
+                    this.y = this.radius;
+                    this.vy *= -1;
+                } else if (this.y + this.radius > rect.height) {
+                    this.y = rect.height - this.radius;
+                    this.vy *= -1;
+                }
+
+                // Elastic sphere on sphere collision
+                for (let i = balls.indexOf(this) + 1; i < balls.length; i++) {
+                    const other = balls[i];
+                    const dx = other.x - this.x;
+                    const dy = other.y - this.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const minDist = this.radius + other.radius;
+
+                    if (dist < minDist) {
+                        const angle = Math.atan2(dy, dx);
+                        const targetX = this.x + Math.cos(angle) * minDist;
+                        const targetY = this.y + Math.sin(angle) * minDist;
+                        const ax = (targetX - other.x) * this.spring;
+                        const ay = (targetY - other.y) * this.spring;
+
+                        this.vx -= ax;
+                        this.vy -= ay;
+                        other.vx += ax;
+                        other.vy += ay;
+                    }
+                }
+
+                // Hover transition effect
+                if (mouseOverBall === this) {
+                    this.radius += (this.baseRadius * 1.25 - this.radius) * 0.1;
+                } else {
+                    this.radius += (this.baseRadius - this.radius) * 0.1;
+                }
+            }
         }
-    }
 
-    // 4. 開始旋轉機械旋鈕
-    function twistCrank() {
-        if (isTwisting) return;
-        isTwisting = true;
+        function initializeOrbs() {
+            balls = memories.map(mem => new MemoryBall(mem));
+            updateGashaponDomeVisuals();
+            updateStatsCount();
+        }
 
-        // 隱藏扭蛋提示牌
-        document.getElementById('turnHint').style.opacity = '0';
+        function scatterStarryOrbs() {
+            playSound('click');
+            const rect = canvas.parentNode.getBoundingClientRect();
+            balls.forEach(ball => {
+                ball.x = Math.random() * (rect.width - 120) + 60;
+                ball.y = Math.random() * (rect.height - 120) + 60;
+                ball.vx = (Math.random() - 0.5) * 1.5;
+                ball.vy = (Math.random() - 0.5) * 1.5;
+            });
+        }
 
-        // 旋轉旋鈕 (轉滿一大圈)
-        currentRotation += 360;
-        document.getElementById('crank').style.transform = `rotate(${currentRotation}deg)`;
+        function updateAndRenderCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Filter integration based on color theme choice
+            const renderedBalls = balls.filter(ball => {
+                if (currentFilter === 'all') return true;
+                return ball.memory.theme === currentFilter;
+            });
+
+            renderedBalls.forEach(ball => {
+                ball.update();
+                ball.draw();
+            });
+
+            requestAnimationFrame(updateAndRenderCanvas);
+        }
+
+        const canvasContainer = canvas.parentNode;
         
-        // 播放扭動機械聲
-        playSound('twist');
+        canvasContainer.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
 
-        // 使大玻璃罩內的所有球開始激烈晃動碰撞
-        const globe = document.getElementById('globe');
-        globe.classList.add('shake');
+            let currentHover = null;
+            const renderedBalls = balls.filter(ball => currentFilter === 'all' || ball.memory.theme === currentFilter);
+            for (let i = renderedBalls.length - 1; i >= 0; i--) {
+                const b = renderedBalls[i];
+                const dx = mouse.x - b.x;
+                const dy = mouse.y - b.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < b.radius) {
+                    currentHover = b;
+                    break;
+                }
+            }
 
-        // 隱藏上一次掉落的球
-        const dropBall = document.getElementById('droppedBall');
-        dropBall.classList.remove('ball-drop-anim');
-        dropBall.style.display = 'none';
+            if (currentHover !== mouseOverBall) {
+                mouseOverBall = currentHover;
+                const hud = document.getElementById('canvas-hud');
+                if (mouseOverBall) {
+                    const themeConf = THEME_MAP[mouseOverBall.memory.theme] || THEME_MAP['pink'];
+                    document.getElementById('hud-author').innerText = mouseOverBall.memory.author + " 🔮";
+                    document.getElementById('hud-author').style.color = themeConf.color;
+                    document.getElementById('hud-text').innerText = mouseOverBall.memory.content;
+                    hud.style.opacity = '1';
+                    playSound('pop');
+                } else {
+                    hud.style.opacity = '0';
+                }
+            }
+        });
 
-        // 隨機挑選本次掉落球體的配色
-        const chosenColor = neonColors[Math.floor(Math.random() * neonColors.length)];
-        activeBallColor = chosenColor.main;
+        canvasContainer.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+            mouseOverBall = null;
+            document.getElementById('canvas-hud').style.opacity = '0';
+        });
 
-        // 設定掉落球的外觀與漸層，使其擁有精緻的高光 3D 感
-        dropBall.style.background = `radial-gradient(circle at 30% 30%, #ffffff 0%, ${chosenColor.main} 42%, rgba(0, 0, 0, 0.9) 100%)`;
-        dropBall.style.boxShadow = `
-            inset -6px -6px 15px rgba(0,0,0,0.6), 
-            inset 8px 8px 12px rgba(255,255,255,0.5), 
-            0 10px 20px rgba(0,0,0,0.7),
-            0 0 15px ${chosenColor.main}88
-        `;
+        canvasContainer.addEventListener('mousedown', () => {
+            if (mouseOverBall) {
+                launchMemoryModal(mouseOverBall.memory);
+            }
+        });
 
-        // 扭蛋運作時間軸
-        setTimeout(() => {
-            // 停止球體搖晃
-            globe.classList.remove('shake');
+        // Touch support for mobile devices
+        canvasContainer.addEventListener('touchstart', (e) => {
+            if (e.touches.length > 0) {
+                const rect = canvas.getBoundingClientRect();
+                mouse.x = e.touches[0].clientX - rect.left;
+                mouse.y = e.touches[0].clientY - rect.top;
+                
+                let touchedBall = null;
+                const renderedBalls = balls.filter(ball => currentFilter === 'all' || ball.memory.theme === currentFilter);
+                for (let b of renderedBalls) {
+                    const dx = mouse.x - b.x;
+                    const dy = mouse.y - b.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < b.radius) {
+                        touchedBall = b;
+                        break;
+                    }
+                }
+                if (touchedBall) {
+                    e.preventDefault(); 
+                    launchMemoryModal(touchedBall.memory);
+                }
+            }
+        });
+
+        function updateGashaponDomeVisuals() {
+            const dome = document.getElementById('dome-balls');
+            dome.innerHTML = '';
             
-            // 讓新彩球滑落到出蛋口
-            dropBall.classList.add('ball-drop-anim');
-            playSound('drop');
-        }, 1200);
+            // Build visual capsules inside Gashapon dome representing full colorful variety
+            const maxOrbs = Math.min(memories.length, 30);
+            for (let i = 0; i < maxOrbs; i++) {
+                const memory = memories[i];
+                const themeConf = THEME_MAP[memory.theme] || THEME_MAP['pink'];
+                
+                const randomX = Math.random() * 20 - 10;
+                const randomY = Math.random() * 20 - 10;
+                
+                const orb = document.createElement('div');
+                orb.className = 'w-5 h-5 rounded-full transition duration-300 filter animate-float';
+                orb.style.backgroundColor = themeConf.color;
+                orb.style.boxShadow = `0 0 10px ${themeConf.glow}`;
+                orb.style.transform = `translate(${randomX}px, ${randomY}px)`;
+                orb.style.animationDelay = `${Math.random() * 4}s`;
+                dome.appendChild(orb);
+            }
+        }
 
-        setTimeout(() => {
-            isTwisting = false;
-        }, 1500);
-    }
+        function dispenseMemory() {
+            if (isGashaponDispensing) return;
+            isGashaponDispensing = true;
+            
+            playSound('dispense');
+            
+            // Handle rotation animation
+            const arrow = document.getElementById('lever-arrow');
+            arrow.style.transform = 'rotate(360deg)';
+            
+            // Shake dome balls
+            const dome = document.getElementById('dome-balls');
+            dome.classList.add('animate-bounce');
 
-    // 5. 點擊掉下來的扭蛋球，將其爆開並投射心聲
-    function popMemory() {
-        // 播放「啵」的彈出開殼聲
-        playSound('pop');
+            const dropped = document.getElementById('dropped-capsule');
+            dropped.classList.add('hidden');
+            dropped.classList.remove('capsule-drop');
 
-        // 隨機抽取 42 位夥伴的回憶
-        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-        
-        // 將模態視窗配色改為對應記憶球的璀璨霓虹色
-        const projector = document.getElementById('projectorCard');
-        projector.style.setProperty('--theme-color', activeBallColor);
+            setTimeout(() => {
+                arrow.style.transform = 'rotate(0deg)';
+                dome.classList.remove('animate-bounce');
 
-        // 填入夥伴資訊
-        document.getElementById('partnerName').innerText = randomMessage.name;
-        document.getElementById('partnerMsg').innerText = randomMessage.msg;
-        
-        // 更新球殼外觀顏色
-        document.getElementById('leftDome').style.setProperty('--theme-color', activeBallColor);
-        document.getElementById('rightDome').style.setProperty('--theme-color', activeBallColor);
+                // Pick randomized memory from real parsed array
+                const randomIndex = Math.floor(Math.random() * memories.length);
+                const chosenMemory = memories[randomIndex];
 
-        // 打開全螢幕投射視窗
-        const modal = document.getElementById('modalOverlay');
-        modal.style.display = 'flex';
-        setTimeout(() => {
-            modal.classList.add('active');
-        }, 30);
-    }
+                // Design dropped capsule colors with corresponding beautiful neon aura
+                const capsuleVisual = document.getElementById('capsule-visual');
+                const themeConfig = THEME_MAP[chosenMemory.theme] || THEME_MAP['pink'];
+                
+                capsuleVisual.style.backgroundColor = themeConfig.color;
+                capsuleVisual.style.boxShadow = `0 0 25px ${themeConfig.glow}`;
+                
+                dropped.dataset.targetMemoryId = chosenMemory.id;
+                dropped.classList.remove('hidden');
+                dropped.classList.add('capsule-drop');
 
-    // 6. 關閉回憶投射螢幕
-    function closeProjector() {
-        const modal = document.getElementById('modalOverlay');
-        modal.classList.remove('active');
-        
-        // 重新顯示旋鈕上方的提示
-        document.getElementById('turnHint').style.opacity = '1';
+                isGashaponDispensing = false;
+            }, 1000);
+        }
 
-        setTimeout(() => {
-            modal.style.display = 'none';
-            // 讓原本掉落的球隱藏，方便下一次繼續扭
-            const dropBall = document.getElementById('droppedBall');
-            dropBall.classList.remove('ball-drop-anim');
-            dropBall.style.display = 'none';
-        }, 400);
-    }
+        document.getElementById('dropped-capsule').addEventListener('click', function() {
+            const memoryId = parseInt(this.dataset.targetMemoryId);
+            const found = memories.find(m => m.id === memoryId);
+            if (found) {
+                this.classList.add('hidden');
+                playSound('pop');
+                launchMemoryModal(found);
+            }
+        });
 
-    // 初始化頁面
-    window.onload = function() {
-        initSparkles();
-        fillGlobe();
-    };
-</script>
+        function filterColor(theme) {
+            playSound('click');
+            currentFilter = theme;
+            
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-white', 'scale-105');
+            });
+            event.currentTarget.classList.add('ring-2', 'ring-white', 'scale-105');
+        }
 
+        function submitNewMemory() {
+            const authorInput = document.getElementById('mem-author');
+            const contentInput = document.getElementById('mem-content');
+            
+            const author = authorInput.value.trim() || "神秘實習夥伴";
+            const content = contentInput.value.trim();
+            const theme = document.getElementById('selected-theme-val').value;
+
+            if (!content) {
+                alertModal("記憶內容不能是空白的喔！請輸入對夥伴們的話。");
+                return;
+            }
+
+            const newMemory = {
+                id: memories.length + 1,
+                author: author,
+                content: content,
+                theme: theme,
+                weight: Math.min(content.length + 12, 60)
+            };
+
+            memories.push(newMemory);
+            
+            const newBall = new MemoryBall(newMemory);
+            balls.push(newBall);
+
+            updateGashaponDomeVisuals();
+            updateStatsCount();
+
+            authorInput.value = '';
+            contentInput.value = '';
+
+            playSound('pop');
+            alertModal(`✨ 成功將核心彩色球「${author}」投射進大腦控制台！`);
+        }
+
+        function updateStatsCount() {
+            document.getElementById('gashapon-count').innerText = `已搭载記憶球: ${memories.length} 顆`;
+        }
+
+        function alertModal(msg) {
+            const modal = document.getElementById('memory-modal');
+            const card = document.getElementById('modal-card');
+            
+            document.getElementById('modal-glow-bg').style.background = 'radial-gradient(circle, rgba(168,85,247,0.4) 0%, transparent 100%)';
+            document.getElementById('modal-emotion-pill').className = "text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full bg-slate-800 text-purple-300";
+            document.getElementById('modal-emotion-pill').innerText = "SYSTEM NOTICE";
+            document.getElementById('modal-id').innerText = "SYS";
+            document.getElementById('modal-content').innerText = msg;
+            document.getElementById('modal-author').innerText = "控制台播報廣播";
+            document.getElementById('modal-color-name').innerText = "大腦系統通知";
+            document.getElementById('modal-color-name').className = "text-xs font-semibold text-slate-300";
+
+            card.style.borderColor = "rgba(168, 85, 247, 0.4)";
+            card.style.background = "rgba(25, 20, 50, 0.95)";
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                card.classList.remove('scale-95', 'opacity-0');
+            }, 10);
+        }
+
+        function launchMemoryModal(memory) {
+            playSound('click');
+            const modal = document.getElementById('memory-modal');
+            const card = document.getElementById('modal-card');
+            const glowBg = document.getElementById('modal-glow-bg');
+            const config = THEME_MAP[memory.theme] || THEME_MAP['pink'];
+
+            document.getElementById('modal-id').innerText = String(memory.id).padStart(2, '0');
+            document.getElementById('modal-content').innerText = memory.content;
+            document.getElementById('modal-author').innerText = memory.author;
+            
+            const pill = document.getElementById('modal-emotion-pill');
+            pill.innerText = config.name;
+            pill.className = `text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full ${config.pillBg}`;
+
+            const labelColor = document.getElementById('modal-color-name');
+            labelColor.innerText = config.name;
+            labelColor.style.color = config.color;
+
+            glowBg.style.backgroundColor = config.color;
+            card.style.borderColor = config.color;
+            card.style.boxShadow = `0 15px 45px rgba(0, 0, 0, 0.7), 0 0 40px ${config.glow}`;
+            card.style.background = `radial-gradient(circle at top left, rgba(20, 15, 45, 0.95), rgba(5, 5, 15, 0.99))`;
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                card.classList.remove('scale-95', 'opacity-0');
+            }, 10);
+        }
+
+        function closeMemoryModal() {
+            playSound('click');
+            const modal = document.getElementById('memory-modal');
+            const card = document.getElementById('modal-card');
+            
+            card.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 250);
+        }
+
+        function copyCurrentMemoryText() {
+            const text = document.getElementById('modal-content').innerText;
+            const author = document.getElementById('modal-author').innerText;
+            const textToCopy = `${text} —- 來自 ${author} 的 22 屆核心畢業記憶 ✨`;
+            
+            const dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = textToCopy;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+
+            playSound('pop');
+            alertModal("📋 記憶對話已成功複製到剪貼簿！");
+        }
+
+        window.onload = function() {
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+            renderColorFormSelectors();
+            initializeOrbs();
+            requestAnimationFrame(updateAndRenderCanvas);
+        };
+    </script>
 </body>
 </html>
